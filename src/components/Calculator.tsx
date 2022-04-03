@@ -29,9 +29,9 @@ function Calculator(props: props) {
             //@ts-ignore
             input.current.focus()
             //@ts-ignore
-            input.current.selectionStart = resp.data["index"] + 1
+            input.current.selectionStart = resp.data["index"]
             //@ts-ignore
-            input.current.selectionEnd = resp.data["index"] + 2
+            input.current.selectionEnd = resp.data["index"] + 1
             props.open()
         
         } catch (e) {
@@ -54,7 +54,7 @@ function Calculator(props: props) {
             {
                 result !== "" &&
                 <Typography variant="h6">
-                    f(x)={result}
+                    f={result}
                 </Typography>
             }
         </div>

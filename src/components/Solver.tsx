@@ -35,9 +35,9 @@ function Solver(props: props) {
             //@ts-ignore
             input.current.focus()
             //@ts-ignore
-            input.current.selectionStart = resp.data["index"] + 1
+            input.current.selectionStart = resp.data["index"]
             //@ts-ignore
-            input.current.selectionEnd = resp.data["index"] + 2
+            input.current.selectionEnd = resp.data["index"] + 1
             props.open()
         } catch (e) {
             console.log(e)
@@ -64,7 +64,7 @@ function Solver(props: props) {
             {
                 root !== "" &&
                 <Typography variant="h6">
-                    f(x)={root}
+                    x={root}
                 </Typography>
             }
         </div>
