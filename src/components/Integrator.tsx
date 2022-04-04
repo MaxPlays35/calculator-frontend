@@ -1,4 +1,4 @@
-import {TextField, Typography} from "@mui/material";
+import {TextField} from "@mui/material";
 import {MathJax, MathJaxContext} from "better-react-mathjax";
 import {LoadingButton} from "@mui/lab";
 import React from "react";
@@ -59,16 +59,10 @@ function Integrator(props: props) {
             </div>
             <MathJaxContext config={props.config}>
 
-                <MathJax>{`$\\int_{${startIntegral}}^${endIntegral} ${expr} dx$`}</MathJax>
+                <MathJax>{`$\\int_{${startIntegral}}^${endIntegral} ${expr} dx ${integralValue !== "" ? `\\approx${integralValue}` : ""} $ `}</MathJax>
             </MathJaxContext>
             <LoadingButton variant="contained" loading={loading}
                            onClick={() => calculateIntegral()}>Calculate</LoadingButton>
-            {
-                integralValue !== "" &&
-                <Typography variant="h6">
-                    f(x)={integralValue}
-                </Typography>
-            }
         </div>
     )
 }

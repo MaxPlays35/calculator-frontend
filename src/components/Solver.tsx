@@ -1,5 +1,5 @@
 import React from "react";
-import {TextField, Typography} from "@mui/material";
+import {TextField} from "@mui/material";
 import {MathJax, MathJaxContext} from "better-react-mathjax";
 import {LoadingButton} from "@mui/lab";
 import client from "../axios";
@@ -63,9 +63,12 @@ function Solver(props: props) {
             <LoadingButton variant="contained" loading={loading} onClick={() => solve()}>Solve</LoadingButton>
             {
                 root !== "" &&
-                <Typography variant="h6">
-                    x={root}
-                </Typography>
+                <MathJaxContext config={props.config}>
+                    <MathJax>{`$x\\approx${root}$`}</MathJax>
+                </MathJaxContext>
+                // <Typography variant="h6">
+                //     x={root}
+                // </Typography>
             }
         </div>
     )

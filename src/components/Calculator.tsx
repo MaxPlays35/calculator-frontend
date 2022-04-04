@@ -1,7 +1,7 @@
 import React from 'react'
 import {MathJax, MathJaxContext} from "better-react-mathjax";
 import {LoadingButton} from "@mui/lab"
-import {TextField, Typography} from "@mui/material";
+import {TextField} from "@mui/material";
 import client from '../axios';
 
 
@@ -48,15 +48,9 @@ function Calculator(props: props) {
             <TextField variant="outlined" value={expr} label="Expression"
                        onChange={(e) => setExpr(e.target.value)} fullWidth inputRef={input}/>
             <MathJaxContext config={props.config}>
-                <MathJax>{`$${expr}$`}</MathJax>
+                <MathJax>{`$${expr + (result !== "" ? `\\approx${result}` : "")}$`}</MathJax>
             </MathJaxContext>
             <LoadingButton variant="contained" loading={loading} onClick={() => calculate()}>Calculate</LoadingButton>
-            {
-                result !== "" &&
-                <Typography variant="h6">
-                    f={result}
-                </Typography>
-            }
         </div>
     )
 }

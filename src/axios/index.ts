@@ -2,7 +2,7 @@ import axios from "axios"
 
 const client = axios.create(
   {
-    baseURL: "http://192.168.1.63:5000/"
+    baseURL: "https://math.radolyn.com/api/"
   }
 )
 
