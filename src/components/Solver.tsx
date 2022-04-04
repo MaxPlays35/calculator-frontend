@@ -1,11 +1,10 @@
 import React from "react";
 import {TextField} from "@mui/material";
-import {MathJax, MathJaxContext} from "better-react-mathjax";
+import {MathJax} from "better-react-mathjax";
 import {LoadingButton} from "@mui/lab";
 import client from "../axios";
 
 interface props {
-    config: any
     open: Function
 }
 
@@ -17,6 +16,21 @@ function Solver(props: props) {
     const [root, setRoot] = React.useState("")
     const [loading, setLoading] = React.useState(false)
     const input = React.useRef(null)
+
+    const handleInput1 = (e: React.ChangeEvent<any>) => {
+        setExpr(e.target.value)
+        setRoot("")
+    }
+
+    const handleInput2 = (e: React.ChangeEvent<any>) => {
+        setStart(e.target.value)
+        setRoot("")
+    }
+
+    const handleInput3 = (e: React.ChangeEvent<any>) => {
+        setEnd(e.target.value)
+        setRoot("")
+    }
 
     const solve = async () => {
         setLoading(true)
@@ -38,7 +52,7 @@ function Solver(props: props) {
             input.current.selectionStart = resp.data["index"]
             //@ts-ignore
             input.current.selectionEnd = resp.data["index"] + 1
-            props.open()
+            props.open(resp.data["errorText"])
         } catch (e) {
             console.log(e)
             props.open()
@@ -50,22 +64,18 @@ function Solver(props: props) {
     return (
         <div className="space-y-3">
             <TextField variant="outlined" value={expr} label="Expression"
-                       onChange={(e) => setExpr(e.target.value)} fullWidth inputRef={input}/>
+                       onChange={handleInput1} fullWidth inputRef={input}/>
             <div className="flex flex-row">
                 <TextField variant="outlined" value={start} label="Start"
-                           onChange={(e) => setStart(e.target.value)} type="number"/>
+                           onChange={handleInput2} type="number"/>
                 <TextField variant="outlined" value={end} label="End"
-                           onChange={(e) => setEnd(e.target.value)} type="number"/>
+                           onChange={handleInput3} type="number"/>
             </div>
-            <MathJaxContext config={props.config}>
-                <MathJax>{`$${expr}$`}</MathJax>
-            </MathJaxContext>
+            <MathJax>{`$${expr}$`}</MathJax>
             <LoadingButton variant="contained" loading={loading} onClick={() => solve()}>Solve</LoadingButton>
             {
                 root !== "" &&
-                <MathJaxContext config={props.config}>
                     <MathJax>{`$x\\approx${root}$`}</MathJax>
-                </MathJaxContext>
                 // <Typography variant="h6">
                 //     x={root}
                 // </Typography>

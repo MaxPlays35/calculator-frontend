@@ -1,12 +1,11 @@
 import React from 'react'
-import {MathJax, MathJaxContext} from "better-react-mathjax";
+import {MathJax} from "better-react-mathjax";
 import {LoadingButton} from "@mui/lab"
 import {TextField} from "@mui/material";
 import client from '../axios';
 
 
 interface props {
-    config: any
     open: Function
 }
 
@@ -15,6 +14,12 @@ function Calculator(props: props) {
     const [loading, setLoading] = React.useState(false)
     const [result, setResult] = React.useState("")
     const input = React.useRef(null)
+
+    const handleInput = (e: React.ChangeEvent<any>) => {
+        setExpr(e.target.value)
+        setResult("")
+    }
+
     const calculate = async () => {
         setLoading(true)
         try {
@@ -32,7 +37,7 @@ function Calculator(props: props) {
             input.current.selectionStart = resp.data["index"]
             //@ts-ignore
             input.current.selectionEnd = resp.data["index"] + 1
-            props.open()
+            props.open(resp.data["errorText"])
         
         } catch (e) {
             console.log(e)
@@ -46,10 +51,8 @@ function Calculator(props: props) {
     return (
         <div className="space-y-3">
             <TextField variant="outlined" value={expr} label="Expression"
-                       onChange={(e) => setExpr(e.target.value)} fullWidth inputRef={input}/>
-            <MathJaxContext config={props.config}>
+                       onChange={handleInput} fullWidth inputRef={input}/>
                 <MathJax>{`$${expr + (result !== "" ? `\\approx${result}` : "")}$`}</MathJax>
-            </MathJaxContext>
             <LoadingButton variant="contained" loading={loading} onClick={() => calculate()}>Calculate</LoadingButton>
         </div>
     )

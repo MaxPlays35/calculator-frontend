@@ -7,10 +7,25 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { MathJaxContext } from 'better-react-mathjax';
+
+const config = {
+  loader: {load: ["input/asciimath"]},
+  asciimath: {
+      displaystyle: true,
+      delimiters: [
+          ["$", "$"],
+          ["`", "`"]
+      ]
+  }
+};
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <MathJaxContext config={config}>
+      <App />
+    </MathJaxContext>
   </React.StrictMode>,
   document.getElementById('root')
 );

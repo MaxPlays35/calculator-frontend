@@ -31,20 +31,16 @@ const Transition = React.forwardRef(function Transition(
 function App() {
     const [value, setValue] = React.useState('1');
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    
-    const config = {
-        loader: {load: ["input/asciimath"]},
-        asciimath: {
-            displaystyle: true,
-            delimiters: [
-                ["$", "$"],
-                ["`", "`"]
-            ]
-        }
+    const [error, setError] = React.useState("")
+    const handleOpen = (text: string) => {
+        setOpen(true)
+        setError(text)
+    }
+    const handleClose = () => {
+        setOpen(false)
+        setError("")
     };
-
+    
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
@@ -67,13 +63,13 @@ function App() {
                             </TabList>
                         </Box>
                         <TabPanel value="1" className={"space-y-3"}>
-                            <Calculator config={config} open={handleOpen}/>
+                            <Calculator open={handleOpen}/>
                         </TabPanel>
                         <TabPanel value="2" className="space-y-3">
-                            <Solver config={config} open={handleOpen}/>
+                            <Solver open={handleOpen}/>
                         </TabPanel>
                         <TabPanel value="3" className="space-y-3">
-                            <Integrator config={config} open={handleOpen}/>
+                            <Integrator open={handleOpen}/>
                         </TabPanel>
                     </TabContext>
                 </Box>
@@ -88,6 +84,7 @@ function App() {
                     <DialogContent>
                         <DialogContentText id="alert-dialog-slide-description">
                             Something went wrong. Please try again or check you expression(I moved cursor for you)
+                            <p>Detailed error: {error ?? "🥳"}</p>
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
